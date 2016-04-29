@@ -5,7 +5,7 @@ import React, { Component, StyleSheet, Dimensions} from 'react-native';
 
 import {Actions, Scene, Router, TabBar,  Modal} from 'react-native-router-flux';
 import SplashScreen from './screens/splash-screen'
-
+import ConversationsScreen from './screens/conversations'
 
 const styles = StyleSheet.create({
     container: {
@@ -32,7 +32,8 @@ export default class PusherChatApp extends Component {
         return (
             <Router style={styles.container} sceneStyle={styles.sceneStyle}>
                 <Scene key="root">
-                    <Scene key="splash_screen" component={SplashScreen}  hideNavBar={true}/>
+                    <Scene key="splash_screen" component={SplashScreen} hideNavBar={true}/>
+                    <Scene key="conversations_screen" component={ConversationsScreen} hideNavBar={true}/>
                 </Scene>
             </Router>
         )
