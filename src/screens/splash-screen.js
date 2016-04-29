@@ -9,18 +9,43 @@ const styles = StyleSheet.create({
        flex:1,
        justifyContent:"center"
    },
+    main_text:{
+        fontSize:20,
+        textAlign:"center",
+        alignSelf:"center"
+    },
     image:{
         alignSelf:"center"
+    },
+    button:{
+        borderWidth:1,
+        borderColor:"#42C0FB",
+        justifyContent:"center",
+        alignSelf:"center",
+        padding:10,
+        paddingLeft:20,
+        paddingRight:20
+    },
+    button_text:{
+        color:"#42C0FB",
+        fontSize:14
     }
 });
 
+import Button from './../components/button/button'
 export default class SplashScreen extends Component {
+    getStarted = () => {
+        console.log('clicked me')
+    }
     render(){
         return (
             <View style={styles.container}>
-                <Text>Pusher Chat App</Text>
+                <Text style={styles.main_text}>Pusher Chat App</Text>
                 <Image source={require('./../assets/icon.png')} style={styles.image}/>
-                <Text> hello conversations screen here nigga</Text>
+               <Button onPress={this.getStarted}
+                        style={styles.button}>
+                   <Text style={styles.button_text}>Get started </Text>
+               </Button>
             </View>
         )
     }
