@@ -4,7 +4,8 @@
 import React, { Component, View, Text, StyleSheet, Image} from 'react-native';
 
 
-import Button from './../components/button/button'
+import Button from './../components/button/button';
+
 import {Actions} from 'react-native-router-flux';
 
 const styles = StyleSheet.create({
