@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
     sceneStyle: {
         flex: 1,
         backgroundColor: "#fff",
-        flexDirection: "column"
+        flexDirection: "column",
+        paddingTop:20
     }
 })
 
@@ -32,8 +33,9 @@ export default class PusherChatApp extends Component {
         return (
             <Router style={styles.container} sceneStyle={styles.sceneStyle}>
                 <Scene key="root">
-                    <Scene key="splash_screen" component={SplashScreen} hideNavBar={true}/>
+
                     <Scene key="conversations_screen" component={ConversationsScreen} hideNavBar={true}/>
+                    <Scene key="splash_screen" component={SplashScreen} hideNavBar={true}/>
                 </Scene>
             </Router>
         )
