@@ -4,6 +4,8 @@
 import React, { Component, View, Text, StyleSheet, Image, ListView} from 'react-native';
 import Button from './../components/button/button'
 import { Actions } from 'react-native-router-flux'
+import _ from 'lodash';
+
 const styles = StyleSheet.create({
     container: {
         flex: 1
@@ -145,8 +147,10 @@ export default class ConversationsScreen extends Component {
     }
 
     componentWillMount() {
+        //sort first by time
+        const convos = _.uniq(dummy_chats, 'convo_id');
         this.setState({
-            conversations: this.state.conversations.cloneWithRows(dummy_chats)
+            conversations: this.state.conversations.cloneWithRows(convos)
         })
     }
 
