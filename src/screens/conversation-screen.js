@@ -4,7 +4,7 @@
 import React, { Component, View, Text, StyleSheet, Image, ListView, TextInput, Dimensions} from 'react-native';
 import Button from './../components/button/button';
 import { Actions } from 'react-native-router-flux'
-
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 const { width, height } = Dimensions.get('window');
 
@@ -289,6 +289,7 @@ export default class ConversationScreen extends Component {
                         <Image source={require('./../assets/phone.png')} style={styles.msgAction}/>
                     </Button>
                 </View>
+                <KeyboardSpacer/>
             </View>
         )
     }
