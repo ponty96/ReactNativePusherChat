@@ -3,6 +3,7 @@
  */
 import axios from 'axios'
 import Pusher from 'pusher-client'
+import { AsyncStorage } from 'react'
 
 
 
@@ -14,6 +15,11 @@ export const IS_LOADING = "IS_LOADING";
 export const IS_ERROR = "IS_ERROR";
 export const NEW_MESSAGE = "NEW_MESSAGE";
 
+const add_to_storage = (data) => {
+    AsyncStorage.setItem(payload.convo_id, JSON.stringify(data), () => {
+    })
+
+}
 
 const sendChat = (payload) => {
     return {
@@ -67,6 +73,7 @@ export function newMesage(API_KEY, dispatch){
     socket.bind('new-message',
         function(data) {
             // add comment into page
+            add_to_storage(data)
             dispatch(newChat(data))
         }
     );
@@ -80,23 +87,32 @@ export function apiSendChat(chat){
             message:chat.message,
             sent_at:chat.sent_at,
             convo_id:chat.convo_id,
-        }).then(res => dispatch(sendChat(res.data))).catch(res => dispatch(isError()));
+        }).then(res => {
+            add_to_storage(chat)
+            dispatch(sendChat(chat))
+        }
+        ).catch(res => dispatch(isError()));
     };
 };
 
-export function apiGetALLChats(username){
-    return dispatch => {
-        dispatch(isFetching());
-        return axios.post('https://nameless-castle-85902.herokuapp.com/chats/'+username+'').then(res =>     dispatch(getChats(res.data))).catch(res => dispatch(isError()));
-    };
-};
 
-export function apiGetConversation(convo_id){
+export function apiGetChats(){
+    //get from async storage and not api
+
     return dispatch => {
         dispatch(isFetching());
-        return axios.post('https://nameless-castle-85902.herokuapp.com/conversation/'+convo_id+'').then(res =>     dispatch(getConvo(res.data))).catch(res => dispatch(isError()));
+        return AsyncStorage.getAllKeys((err, keys) => {
+            AsyncStorage.multiGet(keys, (err, stores) => {
+                let chats = [];
+                stores.map((result, i, store) => {
+                    // get at each store's key/value so you can work with it
+                    chats.push(store[i])
+                });
+                dispatch(getChats(chats))
+            });
+        });
     };
-};
+}
 
 
 
