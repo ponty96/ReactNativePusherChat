@@ -2,7 +2,6 @@
  * Created by ponty on 29/04/2016.
  */
 import axios from 'axios'
-import Pusher from 'pusher-client'
 import { AsyncStorage } from 'react'
 
 
@@ -68,12 +67,12 @@ function isError(){
 };
 
 export function newMesage(API_KEY, dispatch){
-    const socket = new Pusher(API_KEY);
-    var my_channel = socket.subscribe('my-channel');
+    var socket = new Pusher(API_KEY);
+    var chat_channel = socket.subscribe('chat-channel');
     socket.bind('new-message',
         function(data) {
             // add comment into page
-            add_to_storage(data)
+            add_to_storage(data);
             dispatch(newChat(data))
         }
     );

@@ -38,3 +38,5 @@ const Chats = (state = {process_status:"", chats:[]}, actions) => {
             return state;
     }
 };
+
+export default Chats;

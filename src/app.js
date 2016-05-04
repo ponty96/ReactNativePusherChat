@@ -2,6 +2,10 @@
  * Created by ponty on 29/04/2016.
  */
 import React, { Component, StyleSheet, Dimensions} from 'react-native';
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
+
+const store = configureStore();
 
 import {Actions, Scene, Router, TabBar,  Modal} from 'react-native-router-flux';
 import SplashScreen from './screens/splash-screen'
@@ -32,6 +36,7 @@ const styles = StyleSheet.create({
 export default class PusherChatApp extends Component {
     render() {
         return (
+            <Provider store={store}>
             <Router style={styles.container} sceneStyle={styles.sceneStyle}>
                 <Scene key="root">
 
@@ -40,6 +45,7 @@ export default class PusherChatApp extends Component {
                     <Scene key="conversation_screen" component={ConversationScreen} hideNavBar={true} />
                 </Scene>
             </Router>
+                </Provider>
         )
 
     }
