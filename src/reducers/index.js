@@ -1,7 +1,7 @@
 /**
  * Created by ponty on 29/04/2016.
  */
-
+import { combineReducers } from 'redux';
 import { SEND_CHAT, GET_ALL_CHATS, GET_CONVERSATION, IS_FETCHING, IS_LOADING, IS_ERROR } from './../actions'
 
 const Chats = (state = {process_status:"", chats:[]}, actions) => {
@@ -39,4 +39,8 @@ const Chats = (state = {process_status:"", chats:[]}, actions) => {
     }
 };
 
-export default Chats;
+const rootReducer = combineReducers({
+    Chats
+})
+
+export default rootReducer;

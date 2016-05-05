@@ -5,6 +5,7 @@ import React, { Component, View, Text, StyleSheet, Image, ListView} from 'react-
 import Button from './../components/button/button'
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
+import {connect} from 'react-redux'
 
 const styles = StyleSheet.create({
     container: {
@@ -137,7 +138,15 @@ const dummy_chats = [
     }
 ];
 
-export default class ConversationsScreen extends Component {
+function mapStateToProps(state) {
+    return {
+        Chats: state.Chats,
+        dispatch:state.dispatch
+
+    }
+}
+
+class ConversationsScreen extends Component {
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2});
@@ -148,7 +157,9 @@ export default class ConversationsScreen extends Component {
 
     componentWillMount() {
         //sort first by time
-        const convos = _.uniq(dummy_chats, 'convo_id');
+        const {dispatch, Chats} =  this.props;
+
+        const convos = _.uniq(Chats.chats, 'convo_id');
         this.setState({
             conversations: this.state.conversations.cloneWithRows(convos)
         })
@@ -173,6 +184,7 @@ export default class ConversationsScreen extends Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
@@ -186,3 +198,6 @@ export default class ConversationsScreen extends Component {
         )
     }
 }
+
+
+export default connect(mapStateToProps)(ConversationsScreen)
