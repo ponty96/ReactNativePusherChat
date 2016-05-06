@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-between",
         borderBottomWidth: 1,
         borderBottomColor: "#42C0FB",
         marginBottom: 10
@@ -60,6 +60,13 @@ const styles = StyleSheet.create({
     innerRow: {
         flexDirection: "row",
         justifyContent: "space-between"
+    },
+    add_text:{
+        fontSize: 16,
+        textAlign: "right",
+        alignSelf: "center",
+        color: "#42C0FB",
+        marginRight:10
     }
 });
 
@@ -190,6 +197,7 @@ class ConversationsScreen extends Component {
                 <View style={styles.row}>
                     <Image source={require('./../assets/icon.png')} style={styles.headerImg}/>
                     <Text style={styles.main_text}>Conversations</Text>
+                    <Text style={styles.add_text}>Add</Text>
                 </View>
                 <ListView
                     renderRow={this.renderRow}
