@@ -1,7 +1,7 @@
 /**
  * Created by ponty on 29/04/2016.
  */
-import React, { Component, View, Text, StyleSheet, Image, ListView} from 'react-native';
+import React, { Component, View, Text, StyleSheet, Image, ListView, TouchableHighlight} from 'react-native';
 import Button from './../components/button/button'
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
@@ -197,7 +197,11 @@ class ConversationsScreen extends Component {
                 <View style={styles.row}>
                     <Image source={require('./../assets/icon.png')} style={styles.headerImg}/>
                     <Text style={styles.main_text}>Conversations</Text>
-                    <Text style={styles.add_text}>Add</Text>
+                    <TouchableHighlight
+                        style={{marginTop:10}}
+                        onPress={() => {console.log('transit to add screen')}}>
+                        <Text style={styles.add_text}>Add</Text>
+                    </TouchableHighlight>
                 </View>
                 <ListView
                     renderRow={this.renderRow}
