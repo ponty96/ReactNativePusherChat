@@ -77,20 +77,16 @@ export function newMesage(API_KEY, dispatch){
         }
     );
 }
-export function apiSendChat(chat){
+export function apiSendChat(sender,receiver,message,convo_id,sent_at){
+    const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());
-        return axios.post('https://nameless-castle-85902.herokuapp.com/chat/', {
-            sender:chat.sender,
-            receiver:chat.receiver,
-            message:chat.message,
-            sent_at:chat.sent_at,
-            convo_id:chat.convo_id,
-        }).then(res => {
+        return  axios.get('https://infinite-taiga-31420.herokuapp.com/chat/',chat).then(response =>{
             add_to_storage(chat)
             dispatch(sendChat(chat))
-        }
-        ).catch(res => dispatch(isError()));
+        }).catch(response =>{
+            dispatch(isError())
+        });
     };
 };
 
