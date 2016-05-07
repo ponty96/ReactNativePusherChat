@@ -3,6 +3,7 @@
  */
 import axios from 'axios'
 import { AsyncStorage } from 'react'
+import moment from 'moment'
 
 
 
@@ -77,7 +78,24 @@ export function newMesage(API_KEY, dispatch){
         }
     );
 }
-export function apiSendChat(sender,receiver,message,convo_id,sent_at){
+
+export function startConvo(receiver,message){
+    const sent_at = "";
+    const sender = "ponty96";
+    const convo_id = ""; // this should be a concatenation
+    const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
+    return dispatch => {
+        dispatch(isLoading());
+        return  axios.get('https://infinite-taiga-31420.herokuapp.com/chat/',chat).then(response =>{
+            add_to_storage(chat)
+            dispatch(sendChat(chat))
+        }).catch(response =>{
+            dispatch(isError())
+        });
+    };
+}
+export function apiSendChat(receiver,message,convo_id,sent_at){
+    const sender = "ponty96";
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());

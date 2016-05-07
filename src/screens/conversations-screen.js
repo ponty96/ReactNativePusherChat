@@ -12,10 +12,12 @@ import React, {
     Modal,
     TextInput
 } from 'react-native';
+
 import Button from './../components/button/button'
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import { startConvo } from './../actions/';
 
 const styles = StyleSheet.create({
     container: {
@@ -234,6 +236,12 @@ class ConversationsScreen extends Component {
         this.setState({modalVisible: true})
     }
 
+    addContact = (name,message) => {
+        const {dispatch, Chats} = this.props;
+        dispatch(startConvo(name,message));
+        this.closeModal();
+    }
+
     renderModal = () => {
         const animated = true;
         const transparent = false;
@@ -261,7 +269,7 @@ class ConversationsScreen extends Component {
 
                     <Button
                         style={styles.submit_btn}
-                        onPress={() => console.log('dispatch action to add contact')}>
+                        onPress={() => this.addContact(this.state.contact_name, this.state.new_contact_message)}>
                         <Text style={styles.text}>Submit</Text>
                     </Button>
                 </View>
