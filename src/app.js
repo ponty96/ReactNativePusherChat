@@ -39,9 +39,8 @@ export default class PusherChatApp extends Component {
             <Provider store={store}>
             <Router style={styles.container} sceneStyle={styles.sceneStyle}>
                 <Scene key="root">
-
-                    <Scene key="splash_screen" component={SplashScreen} hideNavBar={true}/>
                     <Scene key="conversations_screen" component={ConversationsScreen} hideNavBar={true}/>
+                    <Scene key="splash_screen" component={SplashScreen} hideNavBar={true}/>
                     <Scene key="conversation_screen" component={ConversationScreen} hideNavBar={true} />
                 </Scene>
             </Router>

@@ -1,7 +1,17 @@
 /**
  * Created by ponty on 29/04/2016.
  */
-import React, { Component, View, Text, StyleSheet, Image, ListView, TouchableHighlight} from 'react-native';
+import React, {
+    Component,
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    ListView,
+    TouchableHighlight,
+    Modal,
+    TextInput
+} from 'react-native';
 import Button from './../components/button/button'
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
@@ -61,12 +71,54 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between"
     },
-    add_text:{
+    add_text: {
         fontSize: 16,
         textAlign: "right",
         alignSelf: "center",
         color: "#42C0FB",
-        marginRight:10
+        marginRight: 10
+    },
+    modalContainer: {
+        backgroundColor: '#42C0FB',
+        flex: 1,
+        flexDirection: "column",
+        paddingTop: 30
+    },
+    rowRight: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        borderBottomWidth: 1,
+        borderBottomColor: "#42C0FB",
+        marginBottom: 10
+    },
+    close_btn: {
+        alignSelf: "flex-end",
+        borderWidth: 1,
+        borderColor: "#fff",
+        width: 50,
+        height: 30,
+        justifyContent: "center",
+        marginRight: 15,
+    },
+    input:{
+        borderBottomWidth: 1,
+        borderBottomColor: "#fff",
+        height:50,
+        marginBottom:5,
+        marginLeft:5
+    },
+    text: {
+        textAlign: "center",
+        color:"#fff"
+    },
+    submit_btn: {
+        alignSelf: "center",
+        borderWidth: 1,
+        borderColor: "#fff",
+        width: 100,
+        height: 30,
+        justifyContent: "center",
+        marginRight: 15,
     }
 });
 
@@ -148,28 +200,73 @@ const dummy_chats = [
 function mapStateToProps(state) {
     return {
         Chats: state.Chats,
-        dispatch:state.dispatch
+        dispatch: state.dispatch
 
     }
-}
+};
 
 class ConversationsScreen extends Component {
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2});
         this.state = {
-            conversations: ds
+            conversations: ds,
+            modalVisible: false,
+            contact_name: "",
+            new_contact_message: ""
         }
     }
 
     componentWillMount() {
         //sort first by time
-        const {dispatch, Chats} =  this.props;
+        const { dispatch , Chats} =  this.props;
 
         const convos = _.uniq(Chats.chats, 'convo_id');
         this.setState({
             conversations: this.state.conversations.cloneWithRows(convos)
         })
+    }
+
+    closeModal = () => {
+        this.setState({modalVisible: false})
+    }
+    openModal = () => {
+        this.setState({modalVisible: true})
+    }
+
+    renderModal = () => {
+        const animated = true;
+        const transparent = false;
+
+        return (
+            <Modal animated={animated} transparent={transparent} visible={this.state.modalVisible}
+                   onRequestClose={() => {this.closeModal()}}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.rowRight}>
+                        <Button
+                            style={styles.close_btn}
+                            onPress={this.closeModal}>
+                            <Text style={styles.text}>Close</Text>
+                        </Button>
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Contact Name"
+                        onChangeText={(text) =>  this.setState({contact_name:text})}/>
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Say Hello to Contact"
+                        onChangeText={(text) =>  this.setState({new_contact_message:text})}/>
+
+                    <Button
+                        style={styles.submit_btn}
+                        onPress={() => console.log('dispatch action to add contact')}>
+                        <Text style={styles.text}>Submit</Text>
+                    </Button>
+                </View>
+            </Modal>
+        )
     }
 
     renderRow = (rowData) => {
@@ -192,6 +289,7 @@ class ConversationsScreen extends Component {
 
     render() {
         console.log(this.props)
+        const modalVisible = this.state.modalVisible;
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
@@ -199,9 +297,13 @@ class ConversationsScreen extends Component {
                     <Text style={styles.main_text}>Conversations</Text>
                     <TouchableHighlight
                         style={{marginTop:10}}
-                        onPress={() => {console.log('transit to add screen')}}>
+                        onPress={this.openModal}
+                        underlayColor="transparent">
                         <Text style={styles.add_text}>Add</Text>
                     </TouchableHighlight>
+                </View>
+                <View>
+                    { modalVisible ? this.renderModal() : <View></View>}
                 </View>
                 <ListView
                     renderRow={this.renderRow}
