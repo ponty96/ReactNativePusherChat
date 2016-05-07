@@ -16,9 +16,7 @@ export const IS_ERROR = "IS_ERROR";
 export const NEW_MESSAGE = "NEW_MESSAGE";
 
 const add_to_storage = (data) => {
-    AsyncStorage.setItem(payload.convo_id, JSON.stringify(data), () => {
-    })
-
+    AsyncStorage.setItem(data.convo_id, JSON.stringify(data), () => {})
 }
 
 const sendChat = (payload) => {
@@ -67,6 +65,13 @@ function isError(){
     };
 };
 
+const genConvoId = (sender,receiver) =>{
+    if(sender < receiver){
+        return sender+receiver
+    }
+    return receiver+sender
+}
+
 export function newMesage(API_KEY, dispatch){
     var socket = new Pusher(API_KEY);
     var chat_channel = socket.subscribe('chat-channel');
@@ -80,9 +85,9 @@ export function newMesage(API_KEY, dispatch){
 }
 
 export function startConvo(receiver,message){
-    const sent_at = "";
+    const sent_at = JSON.stringify(new moment().format());
     const sender = "ponty96";
-    const convo_id = ""; // this should be a concatenation
+    const convo_id = genConvoId(sender,receiver);
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());
@@ -94,8 +99,10 @@ export function startConvo(receiver,message){
         });
     };
 }
-export function apiSendChat(receiver,message,convo_id,sent_at){
+export function apiSendChat(receiver,message){
+    const sent_at = JSON.stringify(new moment().format());
     const sender = "ponty96";
+    const convo_id = genConvoId(sender,receiver);
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());

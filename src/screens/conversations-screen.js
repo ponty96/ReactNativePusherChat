@@ -126,86 +126,12 @@ const styles = StyleSheet.create({
     }
 });
 
-const username = 'bolajee';
-
-const dummy_chats = [
-    {
-        sender: "ponty96",
-        receiver: "bolajee",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "walexy",
-        receiver: "bolajee",
-        convo_id: "bolajee_walexy",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://www.gravatar.com/avatar/38e249098df3eeb83da393c1b2616a24?s=32&d=identicon&r=PG",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "pon6",
-        receiver: "bolajee",
-        convo_id: "bolajee_pont6",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        receiver_dp: "https://www.gravatar.com/avatar/38e249098df3eeb83da393c1b2616a24?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "ponty96",
-        receiver: "bolajee",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "ponty96",
-        receiver: "bolajee",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "bolajee",
-        receiver: "ponty96",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "bolajee",
-        receiver: "ponty96",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    }
-];
+const username = 'ponty96';
 
 function mapStateToProps(state) {
     return {
         Chats: state.Chats,
         dispatch: state.dispatch
-
     }
 };
 
