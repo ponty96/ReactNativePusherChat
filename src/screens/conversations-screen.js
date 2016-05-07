@@ -103,11 +103,13 @@ const styles = StyleSheet.create({
         marginRight: 15,
     },
     input:{
-        borderBottomWidth: 1,
-        borderBottomColor: "#fff",
+        borderWidth: 1,
+        borderColor: "#fff",
         height:50,
-        marginBottom:5,
-        marginLeft:5
+        marginBottom:10,
+        marginLeft:8,
+        marginRight:8,
+        paddingLeft:5
     },
     text: {
         textAlign: "center",
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#fff",
         width: 100,
-        height: 30,
+        height: 40,
         justifyContent: "center",
         marginRight: 15,
     }
