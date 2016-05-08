@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "axios": "^0.11.0",
+    "moment": "^2.13.0",
     "pusher-js": "^3.0.0",
     "react": "^0.14.8",
     "react-native": "^0.24.1",

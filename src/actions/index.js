@@ -2,7 +2,7 @@
  * Created by ponty on 29/04/2016.
  */
 import axios from 'axios'
-import { AsyncStorage } from 'react'
+import { AsyncStorage } from 'react-native'
 import moment from 'moment'
 
 
@@ -85,28 +85,30 @@ export function newMesage(API_KEY, dispatch){
 }
 
 export function startConvo(receiver,message){
-    const sent_at = JSON.stringify(new moment().format());
+    const sent_at = JSON.stringify(moment().format());
     const sender = "ponty96";
     const convo_id = genConvoId(sender,receiver);
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());
-        return  axios.get('https://infinite-taiga-31420.herokuapp.com/chat/',chat).then(response =>{
+        return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`).then(response =>{
+            console.log('no error', response)
             add_to_storage(chat)
             dispatch(sendChat(chat))
         }).catch(response =>{
+            console.log('error', response)
             dispatch(isError())
         });
     };
 }
 export function apiSendChat(receiver,message){
-    const sent_at = JSON.stringify(new moment().format());
+    const sent_at = JSON.stringify(moment().format());
     const sender = "ponty96";
     const convo_id = genConvoId(sender,receiver);
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());
-        return  axios.get('https://infinite-taiga-31420.herokuapp.com/chat/',chat).then(response =>{
+        return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`,{sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at}).then(response =>{
             add_to_storage(chat)
             dispatch(sendChat(chat))
         }).catch(response =>{
