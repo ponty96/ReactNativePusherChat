@@ -84,31 +84,27 @@ export function newMesage(dispatch){
 }
 
 export function startConvo(receiver,message){
-    const sent_at = JSON.stringify(moment().format());
+    const sent_at = moment().format();
     const sender = "ponty96";
     const convo_id = genConvoId(sender,receiver);
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());
         return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`).then(response =>{
-            dispatch(sendChat(chat))
         }).catch(response =>{
-
             dispatch(isError())
         });
     };
 }
 export function apiSendChat(receiver,message){
-    const sent_at = JSON.stringify(moment().format());
+    const sent_at = moment().format();
     const sender = "ponty96";
     const convo_id = genConvoId(sender,receiver);
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());
         return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`).then(response =>{
-            dispatch(sendChat(chat))
         }).catch(response =>{
-
             dispatch(isError())
         });
     };

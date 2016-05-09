@@ -10,6 +10,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { apiSendChat, newMesage } from './../actions/';
 
+
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({

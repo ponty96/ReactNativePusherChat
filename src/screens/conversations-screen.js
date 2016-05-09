@@ -19,6 +19,7 @@ import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
 import {connect} from 'react-redux';
 import { startConvo, apiGetChats, newMesage } from './../actions/';
+import moment from 'moment'
 
 const styles = StyleSheet.create({
     container: {
@@ -162,7 +163,16 @@ class ConversationsScreen extends Component {
         const {dispatch, Chats} = nextProps;
         const process_status =  Chats.process_status;
         if(process_status === "completed"){
-            const convos = _.uniq(Chats.chats, 'convo_id');
+            // sorting convos by time
+            let chats = Chats.chats;
+            chats.sort((a,b)=>{
+
+                console.log(moment(b.sent_at).valueOf() - moment(a.sent_at).valueOf())
+                return moment(b.sent_at).valueOf() - moment(a.sent_at).valueOf();
+            });
+            console.log(chats)
+            const convos = _.uniq(chats, 'convo_id');
+
             this.setState({
                 conversations: this.state.conversations.cloneWithRows(convos)
             })
