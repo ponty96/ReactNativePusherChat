@@ -128,7 +128,7 @@ export function apiGetChats(){
                 let chats = [];
                 stores.map((result, i, store) => {
                     // get at each store's key/value so you can work with it
-                    chats.push(store[i])
+                    chats.push(JSON.parse(store[i][1]))
                 });
                 dispatch(getChats(chats))
             });

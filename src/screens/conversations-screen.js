@@ -17,7 +17,7 @@ import Button from './../components/button/button'
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
 import {connect} from 'react-redux';
-import { startConvo } from './../actions/';
+import { startConvo, apiGetChats } from './../actions/';
 
 const styles = StyleSheet.create({
     container: {
@@ -147,14 +147,26 @@ class ConversationsScreen extends Component {
         }
     }
 
-    componentWillMount() {
-        //sort first by time
-        const { dispatch , Chats} =  this.props;
-
-        const convos = _.uniq(Chats.chats, 'convo_id');
-        this.setState({
-            conversations: this.state.conversations.cloneWithRows(convos)
-        })
+    componentDidMount(){
+        const {dispatch, Chats} = this.props;
+        const process_status =  Chats.process_status;
+        if(process_status != "isFetching"){
+            dispatch(apiGetChats())
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        console.log('received props', nextProps)
+        const {dispatch, Chats} = nextProps;
+        const process_status =  Chats.process_status;
+        console.log('got here 1')
+        console.log(process_status)
+        if(process_status === "completed"){
+            console.log('got here')
+            const convos = _.uniq(Chats.chats, 'convo_id');
+            this.setState({
+                conversations: this.state.conversations.cloneWithRows(convos)
+            })
+        }
     }
 
     closeModal = () => {
@@ -206,6 +218,7 @@ class ConversationsScreen extends Component {
     }
 
     renderRow = (rowData) => {
+        console.log('rowdata', rowData)
         return (
             <Button onPress={() =>  Actions.conversation_screen({convo_id:rowData.convo_id})}>
                 <View style={styles.listRow}>
@@ -213,7 +226,7 @@ class ConversationsScreen extends Component {
                            style={styles.dp}/>
                     <View style={styles.column}>
                         <View style={styles.innerRow}>
-                            <Text>{ rowData.sender ? rowData.sender : rowData.receiver}</Text>
+                            <Text>{ username != rowData.sender ? rowData.sender : rowData.receiver}</Text>
                             <Text style={styles.time}>{rowData.time}</Text>
                         </View>
                         <Text style={styles.last_msg}>{rowData.last_msg}</Text>
