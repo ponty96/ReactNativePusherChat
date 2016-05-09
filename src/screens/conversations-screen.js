@@ -228,7 +228,7 @@ class ConversationsScreen extends Component {
                             <Text>{ username != rowData.sender ? rowData.sender : rowData.receiver}</Text>
                             <Text style={styles.time}>{rowData.time}</Text>
                         </View>
-                        <Text style={styles.last_msg}>{rowData.last_msg}</Text>
+                        <Text style={styles.last_msg}>{rowData.message}</Text>
                     </View>
                 </View>
             </Button>
@@ -236,7 +236,6 @@ class ConversationsScreen extends Component {
     }
 
     render() {
-        console.log(this.props)
         const modalVisible = this.state.modalVisible;
         return (
             <View style={styles.container}>

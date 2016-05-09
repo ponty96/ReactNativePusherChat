@@ -16,7 +16,7 @@ export const IS_ERROR = "IS_ERROR";
 export const NEW_MESSAGE = "NEW_MESSAGE";
 
 const add_to_storage = (data) => {
-    AsyncStorage.setItem(data.convo_id, JSON.stringify(data), () => {})
+    AsyncStorage.setItem(data.convo_id+data.sent_at, JSON.stringify(data), () => {})
 }
 
 const sendChat = (payload) => {
@@ -108,6 +108,7 @@ export function apiSendChat(receiver,message){
         return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`).then(response =>{
             dispatch(sendChat(chat))
         }).catch(response =>{
+
             dispatch(isError())
         });
     };

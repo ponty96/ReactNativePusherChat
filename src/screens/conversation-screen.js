@@ -130,7 +130,7 @@ class ConversationScreen extends Component {
     }
 
     componentWillMount() {
-        const { dispatch, Chats} = this.props;
+        const {dispatch, Chats} = this.props;
         const process_status =  Chats.process_status;
         const convo_id  = this.props.convo_id;
 
@@ -151,10 +151,6 @@ class ConversationScreen extends Component {
                 conversation: this.state.conversation.cloneWithRows(list_chats)
             })
         }
-
-    }
-
-    componentDidMount(){
 
     }
 
