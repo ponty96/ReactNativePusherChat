@@ -155,13 +155,9 @@ class ConversationsScreen extends Component {
         }
     }
     componentWillReceiveProps(nextProps){
-        console.log('received props', nextProps)
         const {dispatch, Chats} = nextProps;
         const process_status =  Chats.process_status;
-        console.log('got here 1')
-        console.log(process_status)
         if(process_status === "completed"){
-            console.log('got here')
             const convos = _.uniq(Chats.chats, 'convo_id');
             this.setState({
                 conversations: this.state.conversations.cloneWithRows(convos)
@@ -218,7 +214,6 @@ class ConversationsScreen extends Component {
     }
 
     renderRow = (rowData) => {
-        console.log('rowdata', rowData)
         return (
             <Button onPress={() =>  Actions.conversation_screen({convo_id:rowData.convo_id})}>
                 <View style={styles.listRow}>

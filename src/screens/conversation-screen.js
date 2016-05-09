@@ -3,11 +3,12 @@
  */
 import React, { Component, View, Text, StyleSheet, Image, ListView, TextInput, Dimensions} from 'react-native';
 import Button from './../components/button/button';
-import { Actions } from 'react-native-router-flux'
-import KeyboardSpacer from 'react-native-keyboard-spacer'
+import { Actions } from 'react-native-router-flux';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
 const { width, height } = Dimensions.get('window');
-
 
 const styles = StyleSheet.create({
     container: {
@@ -106,82 +107,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const username = 'bolajee';
+const username = 'ponty96';
 
-const chats = [
-    {
-        sender: "ponty96",
-        receiver: "bolajee",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "walexy",
-        receiver: "bolajee",
-        convo_id: "bolajee_walexy",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://www.gravatar.com/avatar/38e249098df3eeb83da393c1b2616a24?s=32&d=identicon&r=PG",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "pon6",
-        receiver: "bolajee",
-        convo_id: "bolajee_pont6",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        receiver_dp: "https://www.gravatar.com/avatar/38e249098df3eeb83da393c1b2616a24?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "ponty96",
-        receiver: "bolajee",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "ponty96",
-        receiver: "bolajee",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "bolajee",
-        receiver: "ponty96",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
-    },
-    {
-        sender: "bolajee",
-        receiver: "ponty96",
-        convo_id: "bolajee_ponty96",
-        last_msg: "lorem ipsum lactum tactum",
-        time: "11:00pm",
-        sender_dp: "https://avatars3.githubusercontent.com/u/11190968?v=3&s=460",
-        receiver_dp: "https://www.gravatar.com/avatar/b0c68cd8ea105ef0e8fbe8f7e0fdbf5e?s=32&d=identicon&r=PG",
-        unread: true
+function mapStateToProps(state) {
+    return {
+        Chats: state.Chats,
+        dispatch: state.dispatch
     }
-];
+}
 
-export default class ConversationScreen extends Component {
+class ConversationScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -193,21 +128,57 @@ export default class ConversationScreen extends Component {
     }
 
     componentWillMount() {
-        this.setState({
-            conversation: this.state.conversation.cloneWithRows(chats)
-        })
+        const {dispatch, Chats} = this.props;
+        const process_status =  Chats.process_status;
+        const convo_id  = this.props.convo_id;
+
+        if(process_status === "completed"){
+            const convos = _.find(Chats.chats, (chat) => {
+                if(chat.convo_id == convo_id){
+                    return chat;
+                }
+            });
+            const list_chats = [];
+            if(Array.isArray(convos)){
+                list_chats.concat(convos)
+            } else {
+                list_chats.push(convos)
+            }
+
+            this.setState({
+                conversation: this.state.conversation.cloneWithRows(list_chats)
+            })
+        }
+
     }
 
     renderRow = (rowData) => {
         return (
             <View>
-
+                <View style={styles.messageBlockRight}>
+                    <Text style={styles.textRight}>
+                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtj
+                        dsdsdsdsdss
+                        dsds
+                        ds
+                        ds
+                        ds
+                        dsdsdskrnfddfdfdffdfddfdffdfdfdfdfdfdfd
+                    </Text>
+                    <Text style={styles.timeRight}>11:53pm</Text>
+                </View>
+                <View style={styles.messageBlock}>
+                    <Text style={styles.text}>
+                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtjkrnfddfdfdffdfddfdffdfdfdfdfdfdfd
+                    </Text>
+                    <Text style={styles.time}>11:53pm</Text>
+                </View>
             </View>
         )
     }
 
     render() {
-        console.log(this.props);
+        const convo_id  = this.props.convo_id;
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
@@ -218,67 +189,13 @@ export default class ConversationScreen extends Component {
                     </Button>
                     <View style={styles.innerRow}>
                         <Image source={{uri:"https://avatars3.githubusercontent.com/u/11190968?v=3&s=460"}} style={styles.dp}/>
-                        <Text style={styles.main_text}>{this.props.convo_id}</Text>
+                        <Text style={styles.main_text}>{ convo_id.substr(0, convo_id.indexOf(username)) }</Text>
                     </View>
                 </View>
 
-                <View style={styles.messageBlock}>
-                    <Text style={styles.text}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtjkrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.time}>11:53pm</Text>
-                </View>
-
-                <View style={styles.messageBlockRight}>
-                    <Text style={styles.textRight}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtj
-                        dsdsdsdsdss
-                        dsds
-                        ds
-                        ds
-                        ds
-                        dsdsdskrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.timeRight}>11:53pm</Text>
-                </View>
-                <View style={styles.messageBlock}>
-                    <Text style={styles.text}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtjkrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.time}>11:53pm</Text>
-                </View>
-
-                <View style={styles.messageBlockRight}>
-                    <Text style={styles.textRight}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtj
-                        dsdsdsdsdss
-                        dsds
-                        ds
-                        ds
-                        ds
-                        dsdsdskrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.timeRight}>11:53pm</Text>
-                </View>
-                <View style={styles.messageBlock}>
-                    <Text style={styles.text}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtjkrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.time}>11:53pm</Text>
-                </View>
-
-                <View style={styles.messageBlockRight}>
-                    <Text style={styles.textRight}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtj
-                        dsdsdsdsdss
-                        dsds
-                        ds
-                        ds
-                        ds
-                        dsdsdskrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.timeRight}>11:53pm</Text>
-                </View>
+                <ListView
+                    renderRow={this.renderRow}
+                    dataSource={this.state.conversation}/>
 
                 <View style={styles.input}>
                     <TextInput
@@ -296,3 +213,5 @@ export default class ConversationScreen extends Component {
 
 
 }
+
+export default connect(mapStateToProps)(ConversationScreen)
