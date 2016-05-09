@@ -7,7 +7,8 @@ import { Actions } from 'react-native-router-flux';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import moment from 'moment'
+import moment from 'moment';
+import { apiSendChat } from './../actions/';
 
 const { width, height } = Dimensions.get('window');
 
@@ -181,6 +182,16 @@ class ConversationScreen extends Component {
         )
     }
 
+    sendMessage = () => {
+        const convo_id  = this.props.convo_id;
+        const receiver = convo_id.substr(0, convo_id.indexOf(username));
+        const message = this.state.text;
+
+        const {dispatch, Chats} = this.props;
+        dispatch(apiSendChat(receiver,message))
+
+    }
+
     render() {
         const convo_id  = this.props.convo_id;
         return (
@@ -206,7 +217,8 @@ class ConversationScreen extends Component {
                         style={styles.textInput}
                         onChangeText={(text) => this.setState({text:text})}
                         placeholder="Type a message"/>
-                    <Button>
+                    <Button
+                        onPress={this.sendMessage}>
                         <Image source={require('./../assets/phone.png')} style={styles.msgAction}/>
                     </Button>
                 </View>
