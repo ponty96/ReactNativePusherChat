@@ -73,14 +73,10 @@ const genConvoId = (sender,receiver) =>{
 }
 
 export function newMesage(dispatch){
-    console.log("called nigga")
     var socket = new Pusher("3c01f41582a45afcd689");
     const channel = socket.subscribe('chat_channel');
     channel.bind('new-message',
         (data) => {
-            // add comment into page
-            console.log('holla new message man');
-            console.log('data', data.chat)
             add_to_storage(data.chat);
             dispatch(newChat(data.chat))
         }
@@ -95,7 +91,6 @@ export function startConvo(receiver,message){
     return dispatch => {
         dispatch(isLoading());
         return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`).then(response =>{
-
             dispatch(sendChat(chat))
         }).catch(response =>{
 
@@ -110,8 +105,7 @@ export function apiSendChat(receiver,message){
     const chat = {sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at};
     return dispatch => {
         dispatch(isLoading());
-        return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`,{sender:sender, receiver:receiver, message:message, convo_id:convo_id,sent_at:sent_at}).then(response =>{
-            add_to_storage(chat)
+        return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`).then(response =>{
             dispatch(sendChat(chat))
         }).catch(response =>{
             dispatch(isError())

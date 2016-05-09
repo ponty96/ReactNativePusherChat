@@ -10,7 +10,8 @@ import React, {
     ListView,
     TouchableHighlight,
     Modal,
-    TextInput
+    TextInput,
+    AsyncStorage
 } from 'react-native';
 
 import Button from './../components/button/button'
@@ -154,7 +155,6 @@ class ConversationsScreen extends Component {
         if(process_status != "isFetching"){
             dispatch(apiGetChats())
         }
-
         // start pusher websocket client to listen to new websocket events
         newMesage(dispatch)
     }

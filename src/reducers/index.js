@@ -2,7 +2,7 @@
  * Created by ponty on 29/04/2016.
  */
 import { combineReducers } from 'redux';
-import { SEND_CHAT, GET_ALL_CHATS, GET_CONVERSATION, IS_FETCHING, IS_LOADING, IS_ERROR } from './../actions'
+import { SEND_CHAT, GET_ALL_CHATS, GET_CONVERSATION, IS_FETCHING, IS_LOADING, IS_ERROR, NEW_MESSAGE} from './../actions'
 
 const Chats = (state = {process_status:"", chats:[]}, actions) => {
     switch(actions.type){
@@ -29,6 +29,7 @@ const Chats = (state = {process_status:"", chats:[]}, actions) => {
             });
 
         case SEND_CHAT:
+        case NEW_MESSAGE:
             return Object.assign({}, state, {
                 process_status:"completed",
                 chats:[...state.chats,actions.payload]
