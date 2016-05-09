@@ -130,26 +130,29 @@ class ConversationScreen extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount(){
         const {dispatch, Chats} = this.props;
         const process_status =  Chats.process_status;
         const convo_id  = this.props.convo_id;
 
         if(process_status === "completed"){
-            const convos = _.find(Chats.chats, (chat) => {
-                if(chat.convo_id == convo_id){
-                    return chat;
-                }
-            });
-            const list_chats = [];
-            if(Array.isArray(convos)){
-                list_chats.concat(convos)
-            } else {
-                list_chats.push(convos)
-            }
-
+            const convos = Chats.chats.filter((val) => {return val.convo_id == convo_id})
+            console.log(convos)
             this.setState({
-                conversation: this.state.conversation.cloneWithRows(list_chats)
+                conversation: this.state.conversation.cloneWithRows(convos)
+            })
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, Chats} = nextProps;
+        const process_status =  Chats.process_status;
+        const convo_id  = this.props.convo_id;
+
+        if(process_status === "completed"){
+            const convos = Chats.chats.filter((val) => {return val.convo_id == convo_id})
+            console.log(convos)
+            this.setState({
+                conversation: this.state.conversation.cloneWithRows(convos)
             })
         }
 
