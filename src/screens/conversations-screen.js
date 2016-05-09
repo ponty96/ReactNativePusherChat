@@ -17,7 +17,7 @@ import Button from './../components/button/button'
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
 import {connect} from 'react-redux';
-import { startConvo, apiGetChats } from './../actions/';
+import { startConvo, apiGetChats, newMesage } from './../actions/';
 
 const styles = StyleSheet.create({
     container: {
@@ -150,9 +150,13 @@ class ConversationsScreen extends Component {
     componentDidMount(){
         const {dispatch, Chats} = this.props;
         const process_status =  Chats.process_status;
+
         if(process_status != "isFetching"){
             dispatch(apiGetChats())
         }
+
+        // start pusher websocket client to listen to new websocket events
+        newMesage(dispatch)
     }
     componentWillReceiveProps(nextProps){
         const {dispatch, Chats} = nextProps;

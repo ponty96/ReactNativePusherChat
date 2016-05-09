@@ -8,7 +8,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
-import { apiSendChat } from './../actions/';
+import { apiSendChat, newMesage } from './../actions/';
 
 const { width, height } = Dimensions.get('window');
 
@@ -130,7 +130,7 @@ class ConversationScreen extends Component {
     }
 
     componentWillMount() {
-        const {dispatch, Chats} = this.props;
+        const { dispatch, Chats} = this.props;
         const process_status =  Chats.process_status;
         const convo_id  = this.props.convo_id;
 
@@ -151,6 +151,10 @@ class ConversationScreen extends Component {
                 conversation: this.state.conversation.cloneWithRows(list_chats)
             })
         }
+
+    }
+
+    componentDidMount(){
 
     }
 

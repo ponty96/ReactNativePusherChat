@@ -4,7 +4,7 @@
 import axios from 'axios'
 import { AsyncStorage } from 'react-native'
 import moment from 'moment'
-
+import Pusher from 'pusher-js/react-native';
 
 
 export const SEND_CHAT = "SEND_CHAT";
@@ -72,14 +72,17 @@ const genConvoId = (sender,receiver) =>{
     return receiver+sender
 }
 
-export function newMesage(API_KEY, dispatch){
-    var socket = new Pusher(API_KEY);
-    var chat_channel = socket.subscribe('chat-channel');
-    socket.bind('new-message',
-        function(data) {
+export function newMesage(dispatch){
+    console.log("called nigga")
+    var socket = new Pusher("3c01f41582a45afcd689");
+    const channel = socket.subscribe('chat_channel');
+    channel.bind('new-message',
+        (data) => {
             // add comment into page
-            add_to_storage(data);
-            dispatch(newChat(data))
+            console.log('holla new message man');
+            console.log('data', data.chat)
+            add_to_storage(data.chat);
+            dispatch(newChat(data.chat))
         }
     );
 }
@@ -92,11 +95,10 @@ export function startConvo(receiver,message){
     return dispatch => {
         dispatch(isLoading());
         return  axios.get(`http://localhost:5000/chat/${JSON.stringify(chat)}`).then(response =>{
-            console.log('no error', response)
-            add_to_storage(chat)
+
             dispatch(sendChat(chat))
         }).catch(response =>{
-            console.log('error', response)
+
             dispatch(isError())
         });
     };
