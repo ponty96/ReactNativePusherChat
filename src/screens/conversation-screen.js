@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import moment from 'moment'
 
 const { width, height } = Dimensions.get('window');
 
@@ -152,27 +153,30 @@ class ConversationScreen extends Component {
 
     }
 
+    renderSenderUserBlock(data){
+        return (
+            <View style={styles.messageBlockRight}>
+                <Text style={styles.textRight}>
+                    {data.message}
+                </Text>
+                <Text style={styles.timeRight}>{moment(data.time).calendar()}</Text>
+            </View>
+        )
+    }
+    renderReceiverUserBlock(data){
+        return (
+            <View style={styles.messageBlock}>
+                <Text style={styles.text}>
+                    {data.message}
+                </Text>
+                <Text style={styles.time}>{moment(data.time).calendar()}</Text>
+            </View>
+        )
+    }
     renderRow = (rowData) => {
         return (
             <View>
-                <View style={styles.messageBlockRight}>
-                    <Text style={styles.textRight}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtj
-                        dsdsdsdsdss
-                        dsds
-                        ds
-                        ds
-                        ds
-                        dsdsdskrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.timeRight}>11:53pm</Text>
-                </View>
-                <View style={styles.messageBlock}>
-                    <Text style={styles.text}>
-                        lorem ipsum lactum trtrtrtjkrtnjrtjknrtjkrtjkrnfddfdfdffdfddfdffdfdfdfdfdfdfd
-                    </Text>
-                    <Text style={styles.time}>11:53pm</Text>
-                </View>
+                {rowData.sender == username ? this.renderSenderUserBlock(rowData) : this.renderReceiverUserBlock(rowData)}
             </View>
         )
     }
