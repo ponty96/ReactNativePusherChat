@@ -136,8 +136,11 @@ class ConversationScreen extends Component {
         const convo_id  = this.props.convo_id;
 
         if(process_status === "completed"){
-            const convos = Chats.chats.filter((val) => {return val.convo_id == convo_id})
-            console.log(convos)
+            const convos = Chats.chats.filter((val) => {return val.convo_id == convo_id});
+
+            convos.sort((a,b)=>{
+                return moment(a.sent_at).valueOf() - moment(b.sent_at).valueOf();
+            });
             this.setState({
                 conversation: this.state.conversation.cloneWithRows(convos)
             })
@@ -150,7 +153,9 @@ class ConversationScreen extends Component {
 
         if(process_status === "completed"){
             const convos = Chats.chats.filter((val) => {return val.convo_id == convo_id})
-            console.log(convos)
+            convos.sort((a,b)=>{
+                return moment(a.sent_at).valueOf() - moment(b.sent_at).valueOf();
+            });
             this.setState({
                 conversation: this.state.conversation.cloneWithRows(convos)
             })

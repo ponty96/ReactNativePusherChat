@@ -166,11 +166,8 @@ class ConversationsScreen extends Component {
             // sorting convos by time
             let chats = Chats.chats;
             chats.sort((a,b)=>{
-
-                console.log(moment(b.sent_at).valueOf() - moment(a.sent_at).valueOf())
                 return moment(b.sent_at).valueOf() - moment(a.sent_at).valueOf();
             });
-            console.log(chats)
             const convos = _.uniq(chats, 'convo_id');
 
             this.setState({
