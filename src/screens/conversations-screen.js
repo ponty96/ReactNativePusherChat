@@ -190,6 +190,7 @@ class ConversationsScreen extends Component {
     }
 
     renderModal = () => {
+        // function that returns a modal view for the user to start a new conversation
         const animated = true;
         const transparent = false;
 
@@ -225,6 +226,7 @@ class ConversationsScreen extends Component {
     }
 
     renderRow = (rowData) => {
+        // this function returns the view for each row data in the list view
         return (
             <Button onPress={() =>  Actions.conversation_screen({convo_id:rowData.convo_id})}>
                 <View style={styles.listRow}>
