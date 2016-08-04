@@ -9,7 +9,6 @@ import Pusher from 'pusher-js/react-native';
 
 export const SEND_CHAT = "SEND_CHAT";
 export const GET_ALL_CHATS = "GET_ALL_CHATS";
-export const GET_CONVERSATION = "GET_CONVERSATION";
 export const IS_FETCHING = "IS_FETCHING";
 export const IS_LOADING = "IS_LOADING";
 export const IS_ERROR = "IS_ERROR";
@@ -47,19 +46,19 @@ const getConv = (payload) => {
     };
 };
 
-function isLoading(){
+const isLoading = () => {
     return {
         type:IS_LOADING
     };
 };
 
-function isFetching(){
+const isFetching = () => {
     return {
         type:IS_FETCHING
     };
 };
 
-function isError(){
+const isError = () =>{
     return {
         type:IS_ERROR
     };

@@ -14,7 +14,7 @@ import React, {
     AsyncStorage
 } from 'react-native';
 
-import Button from './../components/button/button'
+import Button from './../components/button/button' // change to react native button
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash';
 import {connect} from 'react-redux';
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const username = 'ponty96';
+const username = 'DUMMY_USER';
 
 function mapStateToProps(state) {
     return {
