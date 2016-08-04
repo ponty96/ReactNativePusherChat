@@ -1,21 +1,18 @@
-/**
- * Created by ponty on 29/04/2016.
- */
 import React, { Component, View, Text, StyleSheet, Image, ListView, TextInput, Dimensions} from 'react-native';
 import Button from './../components/button/button';
 import { Actions } from 'react-native-router-flux';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import moment from 'moment';
-import { apiSendChat, newMesage } from './../actions/';
+import { apiSendChat, receiveMessage, apiGetChats } from './../actions/';
 
 
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        paddingTop:10
     },
     main_text: {
         fontSize: 16,
@@ -95,13 +92,15 @@ const styles = StyleSheet.create({
         borderTopColor:"#e5e5e5",
         borderTopWidth:1,
         padding:10,
-        flexDirection:"row",
+        flexDirection:"column",
         justifyContent:"space-between"
     },
     textInput:{
-        height:50,
+        height:30,
         width:(width * 0.85),
         color:"#e8e8e8",
+        borderTopColor:"#e5e5e5",
+        borderTopWidth:1
     },
     msgAction:{
         height:29,
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
         marginTop:13
     }
 });
-
 const username = 'ponty96';
 
 function mapStateToProps(state) {
@@ -126,46 +124,33 @@ class ConversationScreen extends Component {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2});
         this.state = {
             conversation: ds,
-            text:""
+            text:"",
+            username:""
         }
     }
-
     componentDidMount(){
-        const {dispatch, Chats} = this.props;
-        const process_status =  Chats.process_status;
-        const convo_id  = this.props.convo_id;
-
-        if(process_status === "completed"){
-            const convos = Chats.chats.filter((val) => {return val.convo_id == convo_id});
-
-            convos.sort((a,b)=>{
-                return moment(a.sent_at).valueOf() - moment(b.sent_at).valueOf();
-            });
-            this.setState({
-                conversation: this.state.conversation.cloneWithRows(convos)
-            })
-        }
+      const  { dispatch } = this.props;
+      dispatch(apiGetChats())
+      receiveMessage(dispatch)
     }
     componentWillReceiveProps(nextProps) {
         const {dispatch, Chats} = nextProps;
-        const process_status =  Chats.process_status;
-        const convo_id  = this.props.convo_id;
-
-        if(process_status === "completed"){
-            const convos = Chats.chats.filter((val) => {return val.convo_id == convo_id})
-            convos.sort((a,b)=>{
+        const chats = Chats.chats;
+        chats.sort((a,b)=>{
                 return moment(a.sent_at).valueOf() - moment(b.sent_at).valueOf();
             });
             this.setState({
-                conversation: this.state.conversation.cloneWithRows(convos)
+                conversation: this.state.conversation.cloneWithRows(chats)
             })
-        }
 
     }
 
     renderSenderUserBlock(data){
         return (
             <View style={styles.messageBlockRight}>
+                <Text style={styles.textRight}>
+                    {data.sender}
+                </Text>
                 <Text style={styles.textRight}>
                     {data.message}
                 </Text>
@@ -176,6 +161,9 @@ class ConversationScreen extends Component {
     renderReceiverUserBlock(data){
         return (
             <View style={styles.messageBlock}>
+                <Text style={styles.text}>
+                    {data.sender}
+                </Text>
                 <Text style={styles.text}>
                     {data.message}
                 </Text>
@@ -191,29 +179,22 @@ class ConversationScreen extends Component {
         )
     }
 
-    sendMessage = () => {
-        const convo_id  = this.props.convo_id;
-        const receiver = convo_id.substr(0, convo_id.indexOf(username));
-        const message = this.state.text;
-
-        const {dispatch, Chats} = this.props;
-        dispatch(apiSendChat(receiver,message))
-
+    sendMessage = (e) => {
+      if(e.nativeEvent.key == "Enter"){
+            const message = this.state.text;
+            const username =  this.state.username;
+            const {dispatch, Chats} = this.props;
+            dispatch(apiSendChat(username,message))
+        }
     }
 
     render() {
-        const convo_id  = this.props.convo_id;
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
-                    <Button
-                        style={styles.back_btn}
-                        onPress={() => Actions.pop()}>
-                        <Image source={require('./../assets/back_chevron.png')} style={styles.back_img}/>
-                    </Button>
                     <View style={styles.innerRow}>
                         <Image source={{uri:"https://avatars3.githubusercontent.com/u/11190968?v=3&s=460"}} style={styles.dp}/>
-                        <Text style={styles.main_text}>{ convo_id.substr(0, convo_id.indexOf(username)) }</Text>
+                        <Text style={styles.main_text}>GROUP CHAT</Text>
                     </View>
                 </View>
 
@@ -222,14 +203,17 @@ class ConversationScreen extends Component {
                     dataSource={this.state.conversation}/>
 
                 <View style={styles.input}>
-                    <TextInput
+                  <TextInput
                         style={styles.textInput}
-                        onChangeText={(text) => this.setState({text:text})}
-                        placeholder="Type a message"/>
-                    <Button
-                        onPress={this.sendMessage}>
-                        <Image source={require('./../assets/phone.png')} style={styles.msgAction}/>
-                    </Button>
+                        onChangeText={(text) => this.setState({username:text})}
+                        placeholder="Username"/>
+                </View>
+                <View style={styles.input}>
+                      <TextInput
+                          style={styles.textInput}
+                          onChangeText={(text) => this.setState({text:text})}
+                          placeholder="Type a message"
+                          onKeyPress={this.sendMessage}/>
                 </View>
                 <KeyboardSpacer/>
             </View>
