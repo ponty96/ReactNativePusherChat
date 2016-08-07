@@ -1,0 +1,40 @@
+{
+  // I want to use babel-eslint for parsing!
+  "parser": "babel-eslint",
+  "env": {
+    // I write for browser
+    "browser": true,
+    // in CommonJS
+    "node": true,
+    "es6": true
+  },
+  "plugins": [
+    "react-native",
+    "require",
+    "react"
+  ],
+  "ecmaFeatures": {
+  	"jsx": true
+  },
+  // To give you an idea how to override rule options:
+  "rules": {
+    "eqeqeq": 1,
+    "quotes": [1, "single"],
+    "eol-last": 0,
+    "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "no-underscore-dangle": 0,
+    "semi": 0,
+    "no-console": 1,
+    "default-case": 2,
+    "dot-location": 2,
+    "no-fallthrough": 2,
+    "no-multi-spaces": 2,
+    "no-multi-str": 0,
+    "no-param-reassign": 2,
+    "constructor-super": 2,
+    "no-this-before-super": 2,
+    "prefer-const": 2,
+    "no-unused-vars": 1
+  },
+  "extends": "airbnb"
+}

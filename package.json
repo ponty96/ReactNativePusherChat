@@ -3,16 +3,32 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "lint": "eslint -c .eslintrc src"
   },
   "dependencies": {
     "axios": "^0.11.0",
+    "moment": "^2.13.0",
+    "pusher-js": "git+https://github.com/pusher-community/pusher-websocket-js-iso.git",
     "react": "^0.14.8",
     "react-native": "^0.24.1",
+    "react-native-keyboard-spacer": "^0.1.6",
     "react-native-router-flux": "^3.22.23",
     "react-native-swipeout": "^2.0.12",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "babel-preset-react-native": "^1.9.0",
+    "eslint": "^3.2.2",
+    "eslint-config-airbnb": "^10.0.0",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-react": "^6.0.0",
+    "eslint-plugin-react-native": "^1.2.1",
+    "eslint-plugin-require": "0.0.1"
   }
 }
